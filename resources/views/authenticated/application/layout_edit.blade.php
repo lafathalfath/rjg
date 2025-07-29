@@ -30,8 +30,32 @@
             <div class="bg-gray-500 w-full h-full p-2 overflow-scroll rounded-xl text-white" id="sidebar">
                 <button class="text-xl font-bold px-3 py-1 cursor-pointer" onclick="toggleSidebar()">&#9776;</button>
 
-                <div id="sidebar-content">
-                    lkzmlvkmzckvnzlckvn
+                <div id="sidebar-content" class="mt-5">
+                    <div>
+                        <button class="w-full btn flex items-center justify-between" onclick="toggleSection(this)"><span>Header</span><span>&#11207;</span></button>
+                        <div id="header-drawer" style="display: none;">
+                            <div class="mt-2 mb-1">
+                                <button class="px-2 cursor-pointer bg-gray-100 text-black rounded">+ new</button>
+                            </div>
+                            <div class="border">
+                                <div class="cursor-default" onclick="toggleHideChild(this)">
+                                    <div>lzklkzxcv</div>
+                                    <div class="ms-3">child</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="w-full btn flex items-center justify-between" onclick="toggleSection(this)"><span>Footer</span><span>&#11207;</span></button>
+                        <div id="footer-drawer" style="display: none;">
+                            <div class="mt-2 mb-1">
+                                <button class="px-2 cursor-pointer bg-gray-100 text-black rounded">+ new</button>
+                            </div>
+                            <div class="border">
+                                <div>lzkmvclzcxmv</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -48,15 +72,28 @@
         const load = () => {
             const sidebar = document.getElementById('sidebar')
             const sidebarContent = document.getElementById('sidebar-content')
+            const headerDrawer = document.getElementById('header-drawer')
+            const footerDrawer = document.getElementById('footer-drawer')
             sidebar.style.cssText = sessionStorage.getItem('sidebar')
             sidebarContent.style.cssText = sessionStorage.getItem('sidebar-content')
+            headerDrawer.style.cssText = sessionStorage.getItem('header-drawer')
+            footerDrawer.style.cssText = sessionStorage.getItem('footer-drawer')
+
+            const headerToggleChevron = headerDrawer.parentElement.children[0].children[1]
+            const footerToggleChevron = footerDrawer.parentElement.children[0].children[1]
+            headerToggleChevron.innerHTML = headerDrawer.style.display == 'none' ? '&#11207;' : '&#11206;'
+            footerToggleChevron.innerHTML = footerDrawer.style.display == 'none' ? '&#11207;' : '&#11206;'
         }
         
         const save = () => {
             const sidebar = document.getElementById('sidebar')
             const sidebarContent = document.getElementById('sidebar-content')
+            const headerDrawer = document.getElementById('header-drawer')
+            const footerDrawer = document.getElementById('footer-drawer')
             sessionStorage.setItem('sidebar', sidebar.style.cssText)
             sessionStorage.setItem('sidebar-content', sidebarContent.style.cssText)
+            sessionStorage.setItem('header-drawer', headerDrawer.style.cssText)
+            sessionStorage.setItem('footer-drawer', footerDrawer.style.cssText)
         }
 
         const toggleSidebar = () => {
@@ -73,6 +110,20 @@
             }
             sidebarContent.style.display = sidebarContent.style.display == 'none' ? '' : 'none'
             save()
+        }
+
+        const toggleSection = (e) => {
+            const drawer = e.parentElement.children[1]
+            if (drawer) {
+                e.children[1].innerHTML = drawer.style.display == 'none' ? '&#11206;' : '&#11207;'
+                drawer.style.display = drawer.style.display == 'none' ? '' : 'none'
+            }
+            save()
+        }
+
+        const toggleHideChild = (e) => {
+            const child = e.children[1]
+            child.style.display = child.style.display == 'none' ? '' : 'none'
         }
 
         load()
